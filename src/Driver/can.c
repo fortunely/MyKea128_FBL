@@ -1,5 +1,5 @@
 /*
-* @file    : timer_manager.c
+* @file    : can.c
 * @author  : Martin
 * @brief   : xxx module Header file
 */
@@ -15,9 +15,6 @@ Version   Date         User                Comment
 /*==============================================================================
 =======                             Includes                             =======
 ==============================================================================*/
-#include "timer_manager.h"
-#include "rtc.h"
-
 /*==============================================================================
 =======               Defines & Macros for General Purpose               =======
 ==============================================================================*/
@@ -32,8 +29,6 @@ Version   Date         User                Comment
 /*==============================================================================
 =======                        Local variables                           =======
 ==============================================================================*/
-Timer timers_1ms = 1;
-Timer timers_10ms = 10;
 
 /*==============================================================================
 =======                        Global Function                           =======
@@ -42,42 +37,7 @@ Timer timers_10ms = 10;
 /*==============================================================================
 =======                        Local Function                            =======
 ==============================================================================*/
-void TimerManager_Interrupt(void);
+
 /*==============================================================================
 =======                    Function Implement List                       =======
 ==============================================================================*/
-
-/**
- * void TimerManager_Init(void)
- * @note RTC clock freq = clock source / prescaler = 20M / 100 = 200KHz
- * Tq = 1/freq * (mod+1) = 1/200KHz * 200 = 1ms
- */
-void TimerManager_Init(void)
-{
-	RTC_ConfigType sConfig = {0};
-
-	sConfig.bClockSource = RTC_CLKSRC_BUS;
-	sConfig.bClockPrescaler = RTC_CLK_PRESCALER_100;
-	sConfig.bInterruptEn = RTC_INTERRUPT_ENABLE;
-	sConfig.u16ModuloValue = (200 - 1); // interrupt at the end time of every tq, that is , 0 is included
-	RTC_Init(&sConfig);
-
-	RTC_CallbackType *callbackFunc = TimerManager_Interrupt;
-	RTC_SetCallback(callbackFunc);
-}
-
-
-/**
- * void TimerManager_Interrupt(void)
- * @note called by cycle time @ 1ms
- */
-void TimerManager_Interrupt(void)
-{
-	if(RTC_GetFlags())
-	{
-		RTC_ClrFlags();
-
-		timers_1ms --;
-
-	}
-}

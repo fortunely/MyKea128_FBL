@@ -15,8 +15,8 @@ Version   Date         User                Comment
 /*==============================================================================
 =======                             Includes                             =======
 ==============================================================================*/
-#include "../Driver/clock_manager.h"
-#include "../Driver/timer_manager.h"
+#include "../Bsp/clock_manager.h"
+#include "../Bsp/timer_manager.h"
 
 /*==============================================================================
 =======               Defines & Macros for General Purpose               =======
@@ -48,5 +48,5 @@ void Sys_Init(void)
 {
 	ClockManager_Init();
 	TimerManager_Init();
-
+	UartManager_Init();
 }

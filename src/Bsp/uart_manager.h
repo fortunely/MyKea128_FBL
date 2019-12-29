@@ -1,10 +1,10 @@
 /*
-* @file    : timer_manager.h
+* @file    : uart_manager.h
 * @author  : Martin
 * @brief   : xxx module Header file
 */
-#ifndef DRIVER_TIMER_MANAGER_H_
-#define DRIVER_TIMER_MANAGER_H_
+#ifndef BSP_UART_MANAGER_H_
+#define BSP_UART_MANAGER_H_
 /*******************************************************************************
 **                          Revision Control History                          **
 ********************************************************************************
@@ -15,15 +15,13 @@ Version   Date         User                Comment
 /*==============================================================================
 =======                             INCLUDES                             =======
 ==============================================================================*/
-#include <stdint.h>
-
 /*==============================================================================
 =======               DEFINES & MACROS FOR GENERAL PURPOSE               =======
 ==============================================================================*/
+#define UART_BIT_BAUDRATE  19200
 /*==============================================================================
 =======                        CONSTANTS & TYPES                         =======
 ==============================================================================*/
-typedef uint32_t Timer;
 
 /*==============================================================================
 =======                             EXPORTS                              =======
@@ -32,9 +30,8 @@ typedef uint32_t Timer;
 /*==============================================================================
 =======                  PROTOTYPES OF PUBLIC FUNCTIONS                  =======
 ==============================================================================*/
-void TimerManager_Init();
-void TimerManager_Start();
-void TimerManager_Stop();
+void UartManager_Init();
+void UartManager_Task();
 
 
-#endif /* DRIVER_TIMER_MANAGER_H_ */
+#endif /* BSP_UART_MANAGER_H_ */

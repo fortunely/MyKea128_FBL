@@ -1,10 +1,10 @@
 /*
-* @file    : Clock.h
+* @file    : can.h
 * @author  : Martin
 * @brief   : xxx module Header file
 */
-#ifndef DRIVER_CLOCK_MANAGER_H_
-#define DRIVER_CLOCK_MANAGER_H_
+#ifndef DRIVER_CAN_H_
+#define DRIVER_CAN_H_
 /*******************************************************************************
 **                          Revision Control History                          **
 ********************************************************************************
@@ -15,6 +15,8 @@ Version   Date         User                Comment
 /*==============================================================================
 =======                             INCLUDES                             =======
 ==============================================================================*/
+#include <stdint.h>
+
 /*==============================================================================
 =======               DEFINES & MACROS FOR GENERAL PURPOSE               =======
 ==============================================================================*/
@@ -29,6 +31,8 @@ Version   Date         User                Comment
 /*==============================================================================
 =======                  PROTOTYPES OF PUBLIC FUNCTIONS                  =======
 ==============================================================================*/
-void ClockManager_Init(void);
+void Can_Init();
+void Can_DeInit();
+//void Can_
 
-#endif /* DRIVER_CLOCK_MANAGER_H_ */
+#endif /* DRIVER_CAN_H_ */

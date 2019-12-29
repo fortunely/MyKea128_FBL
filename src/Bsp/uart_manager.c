@@ -1,5 +1,5 @@
 /*
-* @file    : Task.c
+* @file    : uart_manager.c
 * @author  : Martin
 * @brief   : xxx module Header file
 */
@@ -15,7 +15,9 @@ Version   Date         User                Comment
 /*==============================================================================
 =======                             Includes                             =======
 ==============================================================================*/
-#include "../Bsp/timer_manager.h"
+#include "uart.h"
+#include "clock_manager.h"
+#include "uart_manager.h"
 
 /*==============================================================================
 =======               Defines & Macros for General Purpose               =======
@@ -23,13 +25,10 @@ Version   Date         User                Comment
 /*==============================================================================
 =======                        Constants & Types                         =======
 ==============================================================================*/
-
+#define TERMINAL_UART_PORT  UART_2
 /*==============================================================================
 =======                        Global variables                          =======
 ==============================================================================*/
-extern Timer timer_1ms;
-extern Timer timer_10ms;
-extern Timer timer_100ms;
 
 /*==============================================================================
 =======                        Local variables                           =======
@@ -46,17 +45,23 @@ extern Timer timer_100ms;
 /*==============================================================================
 =======                    Function Implement List                       =======
 ==============================================================================*/
-
-void Sys_TaskCycle(void)
+void UartManager_Init()
 {
-	while(1)
-	{
-		if(timers_10ms > TIMER_ms(1000))
-		{
-			timers_10ms = 0;
+	UART_ConfigType sUartConfig = {0};
+	sUartConfig.u32SysClkHz = BUS_CLK_FREQ;
+	sUartConfig.u32Baudrate = UART_BIT_BAUDRATE;
 
-			UartManager_Task();
-		}
-	}
+	UART_Init(TERMINAL_UART_PORT, &sUartConfig);
+}
 
+
+/**
+ * void UartManager_Task()
+ * @note called by cycle time
+ */
+void UartManager_Task()
+{
+	static char c = 'a';
+	UART_PutChar(TERMINAL_UART_PORT, c);
+	c ++;
 }
