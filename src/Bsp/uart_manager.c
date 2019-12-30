@@ -51,6 +51,9 @@ void UartManager_Init()
 	sUartConfig.u32SysClkHz = BUS_CLK_FREQ;
 	sUartConfig.u32Baudrate = UART_BIT_BAUDRATE;
 
+	sUartConfig.sctrl2settings.bits.bTe = 1;
+	sUartConfig.sctrl2settings.bits.bRe = 1;
+
 	UART_Init(TERMINAL_UART_PORT, &sUartConfig);
 }
 

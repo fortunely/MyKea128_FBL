@@ -70,6 +70,7 @@ void ClockManager_Init(void)
  * void ClockManager_Init_Bus_20M(void)
  * @param void
  * @note configure bus clock work at 20MHz, core clock 40MHz, disable NMI pin as default
+ * bus clock = core clock / 2 , see function ICS_Init()
  */
 void ClockManager_Init_Bus_20M(void)
 {

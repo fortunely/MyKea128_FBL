@@ -64,7 +64,7 @@ void TimerManager_Init(void)
 	RTC_Init(&sConfig);
 
 	RTC_CallbackType *callbackFunc = TimerManager_Interrupt;
-	RTC_SetCallback(callbackFunc);
+	RTC_SetCallback(TimerManager_Interrupt);
 }
 
 
@@ -74,14 +74,10 @@ void TimerManager_Init(void)
  */
 void TimerManager_Interrupt(void)
 {
-	if(RTC_GetFlags())
-	{
-		RTC_ClrFlags();
 
-		timers_1ms ++;
+	timers_1ms ++;
 
-		timers_10ms ++;
+	timers_10ms ++;
 
-		timers_100ms ++;
-	}
+	timers_100ms ++;
 }

@@ -18,8 +18,9 @@ Version   Date         User                Comment
 /*==============================================================================
 =======               DEFINES & MACROS FOR GENERAL PURPOSE               =======
 ==============================================================================*/
-#define EXT_CLK_FREQ           8000   /// unit: kHz
-#define BUS_CLK_FREQ           20000  /// unit: kHz
+#define EXT_CLK_FREQ           	8000u                /// unit: kHz
+#define SYS_CLK_FREQ   			40000000L            /// unit: Hz
+#define BUS_CLK_FREQ           	(SYS_CLK_FREQ >> 1)  /// unit: Hz
 
 /*==============================================================================
 =======                        CONSTANTS & TYPES                         =======

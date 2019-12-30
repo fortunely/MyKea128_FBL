@@ -51,7 +51,7 @@ void Sys_TaskCycle(void)
 {
 	while(1)
 	{
-		if(timers_10ms > TIMER_ms(1000))
+		if(timers_10ms > TIMER_ms(500))
 		{
 			timers_10ms = 0;
 
