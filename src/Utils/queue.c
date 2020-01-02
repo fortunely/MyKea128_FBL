@@ -1,5 +1,5 @@
 /*
-* @file    : uart_manager.c
+* @file    : queue.c
 * @author  : Martin
 * @brief   : xxx module Header file
 */
@@ -15,11 +15,8 @@ Version   Date         User                Comment
 /*==============================================================================
 =======                             Includes                             =======
 ==============================================================================*/
-#include "uart.h"
-#include "clock_manager.h"
-#include "uart_manager.h"
-
-#include <size_t.h>
+#include "queue.h"
+#include <string.h>
 
 /*==============================================================================
 =======               Defines & Macros for General Purpose               =======
@@ -27,10 +24,6 @@ Version   Date         User                Comment
 /*==============================================================================
 =======                        Constants & Types                         =======
 ==============================================================================*/
-#define TERMINAL_UART_PORT  UART_2
-
-#define UART_TX_BUFFER_MAX_SIZE           	256
-#define UART_RX_BUFFER_MAX_SIZE 			UART_TX_BUFFER_MAX_SIZE
 
 /*==============================================================================
 =======                        Global variables                          =======
@@ -39,11 +32,6 @@ Version   Date         User                Comment
 /*==============================================================================
 =======                        Local variables                           =======
 ==============================================================================*/
-static uint8_t txBuffer[UART_TX_BUFFER_MAX_SIZE] = {0};
-static uint8_t rxBuufer[UART_RX_BUFFER_MAX_SIZE] = {0};
-
-static Queue_t txQueue;
-static Queue_t rxQueue;
 
 /*==============================================================================
 =======                        Global Function                           =======
@@ -56,50 +44,136 @@ static Queue_t rxQueue;
 /*==============================================================================
 =======                    Function Implement List                       =======
 ==============================================================================*/
-void UartManager_Init()
+
+Status Queue_Init(Queue_t *Q, QElemType arr[], uint16_t size)
 {
-	UART_ConfigType sUartConfig = {0};
-	sUartConfig.u32SysClkHz = BUS_CLK_FREQ;
-	sUartConfig.u32Baudrate = UART_BIT_BAUDRATE;
+	if(Q)
+	{
+		Q->QElemType = arr;
+		Q->maxSize = size;
+		Q->front = 0;
+		Q->rear = 0;
 
-	sUartConfig.sctrl2settings.bits.bTe = 1;
-	sUartConfig.sctrl2settings.bits.bRe = 1;
+		if(size > QUEUE_MAX_SIZE)
+		{
+			return ERROR_OVERMAXSIZE;
+		}
+		else if(0 == size)
+		{
+			return ERROR_EMPTYBUFFER;
+		}
 
-	UART_Init(TERMINAL_UART_PORT, &sUartConfig);
-
-
-	UartManager_InitGlobalVariables();
+		memset(Q->base, 0, size);
+	}
+	else
+	{
+		return ERROR_NULLPOINTER;
+	}
 }
 
-void UartManager_InitGlobalVariables()
+
+bool    Queue_IsEmpty(Queue_t *Q)
 {
-	Queue_Init(&txQueue, txBuffer, sizeof(txBuffer));
-	Queue_Init(&rxQueue, rxBuffer, sizeof(rxQueue));
+	if(Q)
+	{
+		if(Q->front != Q->rear) // initial status
+
+		{
+			return true;
+		}
+	}
+
+	return false;
 }
 
-/**
- * void UartManager_Task()
- * @note called by cycle time
- */
-void UartManager_Task()
+
+bool  Queue_IsFull(Queue_t *Q)
 {
-	static char c = 'a';
-	UART_PutChar(TERMINAL_UART_PORT, c);
-	c ++;
-	uint8_t txBuffer1[] = "hi";
-	char * log = "hi";
-	size_t len = strlen(txBuffer1);
+	if(!Queue_IsEmpty(Q))
+	{
+		if ((Q->rear + 1) % Q->maxSize == Q->front) // data full
+		{
+			return true;
+		}
+	}
 
-
-//	memcmp(log, txBuffer, len);
-
-
-	UART_SendWait(TERMINAL_UART_PORT, txBuffer1, len);
-	UART_WaitTxComplete(TERMINAL_UART_PORT);
+	return false;
 }
 
-void UartManager_Interrupt()
-{
 
+uint16_t Queue_Length(Queue_t *Q)
+{
+	if(!Queue_IsEmpty(Q))
+	{
+		return (uint16_t)(( Q->rear - Q->front ) % Q->maxSize);
+	}
+
+	return 0;
 }
 
+
+Status Queue_Enquene(Queue_t *Q, const QElemType e)
+{
+	if(Q)
+	{
+		if(!Queue_IsFull(Q))
+		{
+			Q->base[Q->rear] = e; // specific method of copy is defined by datas type
+			Q->rear = (Q->rear + 1 ) % Q->maxSize;
+		}
+		else
+		{
+			return ERROR_INDEXOUTOFBOUNDS;
+		}
+	}
+	else
+	{
+		return ERROR_NULLPOINTER;
+	}
+}
+
+
+Status Queue_Dequene(Queue_t *Q, QElemType *pe)
+{
+	if(Q)
+	{
+		if(!Queue_IsEmpty(Q))
+		{
+			if(pe != NULL && Q->maxSize != 0)
+			{
+				*pe = Q->base[Q->front];
+				Q->front = (Q->front + 1 ) % Q->maxSize;
+			}
+			else
+			{
+				return ERROR_NULLPOINTER;
+			}
+		}
+		else
+		{
+			return ERROR_EMPTYBUFFER;
+		}
+	}
+	else
+	{
+		return ERROR_NULLPOINTER;
+	}
+}
+
+
+Status Queue_ClearQuene(Queue_t *Q)
+{
+	if(Q)
+	{
+		Q->front = 0;
+		Q->rear = 0;
+
+		memset(Q->base, 0, Q->maxSize);
+
+		return OK;
+	}
+	else
+	{
+		return ERROR_NULLPOINTER;
+	}
+}
