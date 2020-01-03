@@ -49,7 +49,7 @@ Status Queue_Init(Queue_t *Q, QElemType arr[], uint16_t size)
 {
 	if(Q)
 	{
-		Q->QElemType = arr;
+		Q->base = arr;
 		Q->maxSize = size;
 		Q->front = 0;
 		Q->rear = 0;

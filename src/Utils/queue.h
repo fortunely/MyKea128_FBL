@@ -41,10 +41,10 @@ typedef struct{
 /*==============================================================================
 =======                  PROTOTYPES OF PUBLIC FUNCTIONS                  =======
 ==============================================================================*/
-uint16_t Queue_Init(Queue_t *Q);
-bool     Queue_IsEmpty(Queue_t *Q);
+Status Queue_Init(Queue_t *Q, QElemType arr[], uint16_t size);
+bool   Queue_IsEmpty(Queue_t *Q);
 Status Queue_Enquene(Queue_t *Q, const QElemType e);
-uint16_t Queue_Dequene(Queue_t *Q);
-uint16_t Queue_ClearQuene(Queue_t *Q);
+Status Queue_Dequene(Queue_t *Q, QElemType *pe);
+Status Queue_ClearQuene(Queue_t *Q);
 
 #endif /* UTILS_QUEUE_H_ */

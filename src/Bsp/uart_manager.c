@@ -18,6 +18,7 @@ Version   Date         User                Comment
 #include "uart.h"
 #include "clock_manager.h"
 #include "uart_manager.h"
+#include "queue.h"
 
 #include <size_t.h>
 
@@ -40,7 +41,7 @@ Version   Date         User                Comment
 =======                        Local variables                           =======
 ==============================================================================*/
 static uint8_t txBuffer[UART_TX_BUFFER_MAX_SIZE] = {0};
-static uint8_t rxBuufer[UART_RX_BUFFER_MAX_SIZE] = {0};
+static uint8_t rxBuffer[UART_RX_BUFFER_MAX_SIZE] = {0};
 
 static Queue_t txQueue;
 static Queue_t rxQueue;

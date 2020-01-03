@@ -47,6 +47,12 @@
 									<listOptionValue builtIn="false" value="&quot;${KEAZ128_1.0.0_PATH}/LIN_Driver&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${KEAZ128_1.0.0_PATH}/&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${KEAZ128_1.0.0_PATH}/LIN_Driver/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/src&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/src/Bsp&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/src/Common&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/src/Driver&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/src/Sys&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/src/Utils&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.70102099" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
@@ -461,6 +467,16 @@
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 	<storageModule moduleId="org.eclipse.embsys" parent_project="true" register_architecture="cortex-m0+" register_board="---  none ---" register_chip="SKEAZ1284" register_core="" register_vendor="Freescale"/>
-	<storageModule moduleId="refreshScope"/>
+	<storageModule moduleId="refreshScope" versionNumber="2">
+		<configuration configurationName="Debug_RAM">
+			<resource resourceType="PROJECT" workspacePath="/MyKea128_FBL"/>
+		</configuration>
+		<configuration configurationName="Debug">
+			<resource resourceType="PROJECT" workspacePath="/MyKea128_FBL"/>
+		</configuration>
+		<configuration configurationName="Release">
+			<resource resourceType="PROJECT" workspacePath="/MyKea128_FBL"/>
+		</configuration>
+	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
 </cproject>
